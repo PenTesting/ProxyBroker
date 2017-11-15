@@ -80,42 +80,9 @@ class Judge:
                 aiohttp.ServerDisconnectedError) as e:
             log.debug('%s is failed. Error: %r;' % (self, e))
             return
-        try:
-            with aiohttp.Timeout(self.timeout, loop=self._loop):
-                async with aiohttp.ClientSession(connector=connector,
-                                                 loop=self._loop) as session,\
-                        session.get(url="https://pgorelease.nianticlabs.com/plfe/version", headers=headers,
-                                    allow_redirects=False) as resp1:
-                    page1 = await resp1.text()
-        except (asyncio.TimeoutError, aiohttp.ClientOSError,
-                aiohttp.ClientResponseError,
-                aiohttp.ServerDisconnectedError) as e:
-            print('kapoet op niantic:')
-            print(str(resp1.status))
-            log.debug('%s is failed. Error: %r;' % (self, e))
-            return
-        
-        try:
-            with aiohttp.Timeout(self.timeout, loop=self._loop):
-                async with aiohttp.ClientSession(connector=connector,
-                                                 loop=self._loop) as session,\
-                        session.get(url="https://sso.pokemon.com/sso/login", headers=headers,
-                                    allow_redirects=False) as resp2:
-                    page2 = await resp2.text()
-        except (asyncio.TimeoutError, aiohttp.ClientOSError,
-                aiohttp.ClientResponseError,
-                aiohttp.ServerDisconnectedError) as e:
-            print('kapoet op pokekekak:')
-            print(str(resp2.status))
-            log.debug('%s is failed. Error: %r;' % (self, e))
-            return
         
         page = page.lower()
-        print('proxy yesyes?, all 3 htt response codes:')
-        print(str(resp.status) + " " + str(resp1.status) + " " + str(resp2.status))
         if resp.status == 200 and real_ext_ip in page and rv in page:
-            print('proxy YESYES, all 3 htt response codes:')
-            print(str(resp.status) + " " + str(resp1.status) + " " + str(resp2.status))
             self.marks['via'] = page.count('via')
             self.marks['proxy'] = page.count('proxy')
             self.is_working = True
