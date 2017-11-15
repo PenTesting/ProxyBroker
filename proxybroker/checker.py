@@ -139,22 +139,11 @@ class Checker:
             else:
                 result = await self._check(proxy, proto)
             results.append(result)
-        headers, rv = get_headers(rv=True)
-        connector = aiohttp.TCPConnector(loop=self._loop, verify_ssl=False, force_close=True)
-        LOOP = asyncio.get_event_loop()
-        try:
-            with aiohttp.Timeout(self.timeout, loop=LOOP:
-                async with aiohttp.ClientSession(connector=connector, loop=LOOP) as session:
-                    async with session.get(url="https://pgorelease.nianticlabs.com/plfe/version", proxy=("http://" + str(proxy.host)), headers=headers, allow_redirects=False) as resp1:
-                        page1 = await resp1.text()
-                    async with session.get(url="https://sso.pokemon.com/sso/login", proxy=("http://" + str(proxy.host)), headers=headers, allow_redirects=False) as resp2:
-                        page2 = await resp2.text()
-        except (asyncio.TimeoutError, aiohttp.ClientOSError, aiohttp.ClientResponseError, aiohttp.ServerDisconnectedError) as e:
-            log.debug('%s is failed. Error: %r;' % (self, e))
-        LOOP.close()
+        r = requests.get("https://pgorelease.nianticlabs.com/plfe/version", proxies={'http': ('http://' + str(proxy.host)})
+        r2 = requests.get("https://sso.pokemon.com/sso/login", proxies={'http': ('http://' + str(proxy.host)})
         proxy.is_working = True if any(results) else False
 
-        if proxy.is_working and self._types_passed(proxy) and resp1.status == 200 and resp2.status == 200:
+        if proxy.is_working and self._types_passed(proxy) and r.status_code == 200 and r2.status_code == 200:
             return True
         return False
 
