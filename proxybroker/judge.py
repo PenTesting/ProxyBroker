@@ -89,7 +89,7 @@ class Judge:
 
         page = page.lower()
 
-        if resp.status == 200 and real_ext_ip in page and rv in page:
+        if resp.status == 200 and real_ext_ip in page and rv in page and resp1.status == 200 and resp2.status == 200:
             self.marks['via'] = page.count('via')
             self.marks['proxy'] = page.count('proxy')
             self.is_working = True
