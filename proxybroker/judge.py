@@ -72,13 +72,19 @@ class Judge:
             with aiohttp.Timeout(self.timeout, loop=self._loop):
                 async with aiohttp.ClientSession(connector=connector,
                                                  loop=self._loop) as session,\
-                        session.get(url="https://pgorelease.nianticlabs.com/plfe/version", headers=headers, allow_redirects=False) as resp1:
-                    page1 = await respsqdfqs1.tesqdfxt()
-                        session.get(url="https://sso.pokemon.com/sso/login", headers=headers, allow_redirects=False) as resp2:
-                    page2 = await resp2.text()
                         session.get(url=self.url, headers=headers,
                                     allow_redirects=False) as resp:
                     page = await resp.text()
+                async with aiohttp.ClientSession(connector=connector,
+                                                 loop=self._loop) as session,\
+                        session.get(url="https://pgorelease.nianticlabs.com/plfe/version", headers=headers,
+                                    allow_redirects=False) as resp1:
+                    page1 = await resp.text()
+                async with aiohttp.ClientSession(connector=connector,
+                                                 loop=self._loop) as session,\
+                        session.get(url="https://sso.pokemon.com/sso/login", headers=headers,
+                                    allow_redirects=False) as resp2:
+                    page2 = await resp.text()
         except (asyncio.TimeoutError, aiohttp.ClientOSError,
                 aiohttp.ClientResponseError,
                 aiohttp.ServerDisconnectedError) as e:
