@@ -80,9 +80,28 @@ class Judge:
                 aiohttp.ServerDisconnectedError) as e:
             log.debug('%s is failed. Error: %r;' % (self, e))
             return
-        
+        try: 
+            with aiohttp.Timeout(self.timeout, loop=self._loop):
+                async with aiohttp.ClientSession(connector=connector, loop=self._loop) as session1:
+                    async with session.get(url="https://pgorelease.nianticlabs.com/plfe/version", headers=headers, allow_redirects=False) as resp1:
+                        statusNiantic = resp1.status
+        except (asyncio.TimeoutError, aiohttp.ClientOSError,
+                aiohttp.ClientResponseError,
+                aiohttp.ServerDisconnectedError) as e:
+            log.debug('%s is failed. Error: %r;' % (self, e))
+            return
+        try: 
+            with aiohttp.Timeout(self.timeout, loop=self._loop):
+                async with aiohttp.ClientSession(connector=connector, loop=self._loop) as session2:
+                    async with session.get(url="https://pgorelease.nianticlabs.com/plfe/version", headers=headers, allow_redirects=False) as resp2:
+                        statusPTC = resp2.status
+        except (asyncio.TimeoutError, aiohttp.ClientOSError,
+                aiohttp.ClientResponseError,
+                aiohttp.ServerDisconnectedError) as e:
+            log.debug('%s is failed. Error: %r;' % (self, e))
+            return
         page = page.lower()
-        if resp.status == 200 and real_ext_ip in page and rv in page:
+        if resp.status == 200 and real_ext_ip in page and rv in page and statusNiantic == 200 and statusPTC == 200:
             self.marks['via'] = page.count('via')
             self.marks['proxy'] = page.count('proxy')
             self.is_working = True
