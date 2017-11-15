@@ -71,30 +71,10 @@ class Judge:
         try:
             with aiohttp.Timeout(self.timeout, loop=self._loop):
                 async with aiohttp.ClientSession(connector=connector,
-                                                 loop=self._loop) as session,\
-                        session.get(url=self.url, headers=headers,
+                                                 loop=self._loop) as session:
+                    async with session.get(url=self.url, headers=headers,
                                     allow_redirects=False) as resp:
-                    page = await resp.text()
-        except (asyncio.TimeoutError, aiohttp.ClientOSError,
-                aiohttp.ClientResponseError,
-                aiohttp.ServerDisconnectedError) as e:
-            log.debug('%s is failed. Error: %r;' % (self, e))
-            return
-        try: 
-            with aiohttp.Timeout(self.timeout, loop=self._loop):
-                async with aiohttp.ClientSession(connector=connector, loop=self._loop) as session1:
-                    async with session.get(url="https://pgorelease.nianticlabs.com/plfe/version", headers=headers, allow_redirects=False) as resp1:
-                        statusNiantic = resp1.status
-        except (asyncio.TimeoutError, aiohttp.ClientOSError,
-                aiohttp.ClientResponseError,
-                aiohttp.ServerDisconnectedError) as e:
-            log.debug('%s is failed. Error: %r;' % (self, e))
-            return
-        try: 
-            with aiohttp.Timeout(self.timeout, loop=self._loop):
-                async with aiohttp.ClientSession(connector=connector, loop=self._loop) as session2:
-                    async with session.get(url="https://pgorelease.nianticlabs.com/plfe/version", headers=headers, allow_redirects=False) as resp2:
-                        statusPTC = resp2.status
+                        page = await resp.text()
         except (asyncio.TimeoutError, aiohttp.ClientOSError,
                 aiohttp.ClientResponseError,
                 aiohttp.ServerDisconnectedError) as e:
