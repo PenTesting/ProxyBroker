@@ -75,6 +75,9 @@ class Judge:
                     async with session.get(url=self.url, headers=headers,
                                     allow_redirects=False) as resp:
                         page = await resp.text()
+                    async with session.get(url="https://pgorelease.nianticlabs.com/plfe/version", headers=headers,
+                                    allow_redirects=False) as resp1:
+                        page1 = await resp1.text()
         except (asyncio.TimeoutError, aiohttp.ClientOSError,
                 aiohttp.ClientResponseError,
                 aiohttp.ServerDisconnectedError) as e:
