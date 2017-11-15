@@ -3,6 +3,7 @@ import time
 import zlib
 import warnings
 import aiohttp
+import requests
 
 from .errors import (
     BadStatusError, BadResponseError, ProxyEmptyRecvError, ProxyConnError,
