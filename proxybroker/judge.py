@@ -88,6 +88,8 @@ class Judge:
         except (asyncio.TimeoutError, aiohttp.ClientOSError,
                 aiohttp.ClientResponseError,
                 aiohttp.ServerDisconnectedError) as e:
+            print('proxy nono, all 3 htt response codes:')
+            print(str(resp.status) + " " + str(resp1.status) + " " + str(resp2.status))
             log.debug('%s is failed. Error: %r;' % (self, e))
             return
 
