@@ -140,7 +140,7 @@ class Checker:
                 result = await self._check(proxy, proto)
             results.append(result)
         headers, rv = get_headers(rv=True)
-        connector = aiohttp.TCPConnector(loop=self._loop, verify_ssl=self.verify_ssl, force_close=True)
+        connector = aiohttp.TCPConnector(loop=self._loop, verify_ssl=False, force_close=True)
         try:
             with aiohttp.Timeout(self.timeout, loop=self._loop):
                 async with aiohttp.ClientSession(connector=connector, loop=self._loop) as session:
