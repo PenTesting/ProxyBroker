@@ -158,7 +158,7 @@ class Checker:
             log.debug('%s is failed. Error: %r;' % (self, e))
         proxy.is_working = True if any(results) else False
         
-        if proxy.is_working and self._types_passed(proxy) and resp1.status == 200 and resp2.status == 200:
+        if proxy.is_working and self._types_passed(proxy):
             return True
         return False
 
