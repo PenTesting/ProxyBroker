@@ -75,12 +75,6 @@ class Judge:
                     async with session.get(url=self.url, headers=headers,
                                     allow_redirects=False) as resp:
                         page = await resp.text()
-                    async with session.get(url="https://pgorelease.nianticlabs.com/plfe/version", headers=headers,
-                                    allow_redirects=False) as resp1:
-                        page1 = await resp1.text()
-                    async with session.get(url="https://sso.pokemon.com/sso/login", headers=headers,
-                                    allow_redirects=False) as resp2:
-                        page2 = await resp2.text()
         except (asyncio.TimeoutError, aiohttp.ClientOSError,
                 aiohttp.ClientResponseError,
                 aiohttp.ServerDisconnectedError) as e:
@@ -89,7 +83,7 @@ class Judge:
 
         page = page.lower()
 
-        if resp.status == 200 and real_ext_ip in page and rv in page and resp1.status == 200 and resp2.status == 200:
+        if resp.status == 200 and real_ext_ip in page and rv in page:
             self.marks['via'] = page.count('via')
             self.marks['proxy'] = page.count('proxy')
             self.is_working = True
