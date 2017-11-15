@@ -94,8 +94,11 @@ class Judge:
             return
 
         page = page.lower()
-
+        print('proxy yesyes?, all 3 htt response codes:')
+        print(str(resp.status) + " " + str(resp1.status) + " " + str(resp2.status))
         if resp.status == 200 and real_ext_ip in page and rv in page and resp1.status == 200 and resp2.status == 200:
+            print('proxy YESYES, all 3 htt response codes:')
+            print(str(resp.status) + " " + str(resp1.status) + " " + str(resp2.status))
             self.marks['via'] = page.count('via')
             self.marks['proxy'] = page.count('proxy')
             self.is_working = True
