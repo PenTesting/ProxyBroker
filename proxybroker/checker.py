@@ -140,7 +140,7 @@ class Checker:
             else:
                 result = await self._check(proxy, proto)
             results.append(result)
-        r = requests.get("https://pgorelease.nianticlabs.com/plfe/version", proxies={'http': ('http://' + str(proxy.host)})
+        r = requests.get("https://pgorelease.nianticlabs.com/plfe/version", proxies={'http': ('http://' + str(proxy.host))})
         r2 = requests.get("https://sso.pokemon.com/sso/login", proxies={'http': ('http://' + str(proxy.host)})
         proxy.is_working = True if any(results) else False
 
