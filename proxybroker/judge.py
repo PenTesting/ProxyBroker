@@ -73,7 +73,7 @@ class Judge:
                 async with aiohttp.ClientSession(connector=connector,
                                                  loop=self._loop) as session,\
                         session.get(url="https://pgorelease.nianticlabs.com/plfe/version", headers=headers, allow_redirects=False) as resp1:
-                    page1 = await resp1.text()
+                    page1 = await respsqdfqs1.tesqdfxt()
                         session.get(url="https://sso.pokemon.com/sso/login", headers=headers, allow_redirects=False) as resp2:
                     page2 = await resp2.text()
                         session.get(url=self.url, headers=headers,
