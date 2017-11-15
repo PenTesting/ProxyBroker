@@ -90,6 +90,8 @@ class Judge:
         except (asyncio.TimeoutError, aiohttp.ClientOSError,
                 aiohttp.ClientResponseError,
                 aiohttp.ServerDisconnectedError) as e:
+            print('kapoet op niantic:')
+            print(str(resp1.status))
             log.debug('%s is failed. Error: %r;' % (self, e))
             return
         
@@ -103,6 +105,8 @@ class Judge:
         except (asyncio.TimeoutError, aiohttp.ClientOSError,
                 aiohttp.ClientResponseError,
                 aiohttp.ServerDisconnectedError) as e:
+            print('kapoet op pokekekak:')
+            print(str(resp2.status))
             log.debug('%s is failed. Error: %r;' % (self, e))
             return
         
