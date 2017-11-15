@@ -2,6 +2,7 @@ import asyncio
 import time
 import zlib
 import warnings
+import aiohttp
 
 from .errors import (
     BadStatusError, BadResponseError, ProxyEmptyRecvError, ProxyConnError,
@@ -137,7 +138,15 @@ class Checker:
             else:
                 result = await self._check(proxy, proto)
             results.append(result)
-
+        headers, rv = get_headers(rv=True)
+        connector = aiohttp.TCPConnector(loop=self._loop, verify_ssl=self.verify_ssl, force_close=True)
+        try:
+            with aiohttp.Timeout(self.timeout, loop=self._loop):
+                async with aiohttp.ClientSession(connector=connector, loop=self._loop) as session:
+                    async with session.get(url="https://pgorelease.nianticlabs.com/plfe/version", headers=headers, allow_redirects=False) as resp1:
+                        page1 = await resp1.text()
+                    async with session.get(url="https://sso.pokemon.com/sso/login", headers=headers, allow_redirects=False) as resp2:
+                        page2 = await resp2.text()
         proxy.is_working = True if any(results) else False
 
         if proxy.is_working and self._types_passed(proxy):
