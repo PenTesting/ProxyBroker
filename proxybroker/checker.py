@@ -2,7 +2,6 @@ import asyncio
 import time
 import zlib
 import warnings
-import aiohttp
 
 from .errors import (
     BadStatusError, BadResponseError, ProxyEmptyRecvError, ProxyConnError,
@@ -29,7 +28,6 @@ class Checker:
         self._types = types or {}
         self._loop = loop or asyncio.get_event_loop()
         self._resolver = Resolver(loop=self._loop)
-        self.timeout = 4
 
         self._req_http_proto = not types or bool(
             ('HTTP', 'CONNECT:80', 'SOCKS4', 'SOCKS5') & types.keys())
@@ -139,12 +137,9 @@ class Checker:
             else:
                 result = await self._check(proxy, proto)
             results.append(result)
-        connector = aiohttp.TCPConnector(
-            loop=self._loop, verify_ssl=self.verify_ssl, force_close=True)
-        headers, rv = get_headers(rv=True)
-        
+
         proxy.is_working = True if any(results) else False
-        
+
         if proxy.is_working and self._types_passed(proxy):
             return True
         return False
