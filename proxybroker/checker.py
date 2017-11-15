@@ -29,6 +29,7 @@ class Checker:
         self._types = types or {}
         self._loop = loop or asyncio.get_event_loop()
         self._resolver = Resolver(loop=self._loop)
+        self.timeout = 2
 
         self._req_http_proto = not types or bool(
             ('HTTP', 'CONNECT:80', 'SOCKS4', 'SOCKS5') & types.keys())
