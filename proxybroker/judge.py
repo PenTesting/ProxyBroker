@@ -70,16 +70,20 @@ class Judge:
             loop=self._loop, verify_ssl=self.verify_ssl, force_close=True)
         try:
             with aiohttp.Timeout(self.timeout, loop=self._loop):
-                async with aiohttp.ClientSession(connector=connector, loop=self._loop) as session:
-                    async with session.get(url=self.url, headers=headers, allow_redirects=False) as resp:
-                        page = await resp.text()
+                async with aiohttp.ClientSession(connector=connector,
+                                                 loop=self._loop) as session,\
+                        session.get(url=self.url, headers=headers,
+                                    allow_redirects=False) as resp:
+                    page = await resp.text()
         except (asyncio.TimeoutError, aiohttp.ClientOSError,
                 aiohttp.ClientResponseError,
                 aiohttp.ServerDisconnectedError) as e:
             log.debug('%s is failed. Error: %r;' % (self, e))
             return
+
         page = page.lower()
-        if resp.status == 200 and real_ext_ip in page and rv in page and statusNiantic == 200 and statusPTC == 200:
+
+        if resp.status == 200 and real_ext_ip in page and rv in page:
             self.marks['via'] = page.count('via')
             self.marks['proxy'] = page.count('proxy')
             self.is_working = True
