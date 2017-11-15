@@ -2,6 +2,7 @@ import asyncio
 import time
 import zlib
 import warnings
+import aiohttp
 
 from .errors import (
     BadStatusError, BadResponseError, ProxyEmptyRecvError, ProxyConnError,
