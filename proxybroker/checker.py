@@ -150,8 +150,8 @@ class Checker:
         print(r.status_code)
         print(r2.status_code)
         proxy.is_working = True if any(results) else False
-
-        if proxy.is_working and self._types_passed(proxy):
+        proxy.is_notbanned = True if ((r.status_code == 200) and (r2.status_code == 200)) else False
+        if proxy.is_notbanned and proxy.is_working and self._types_passed(proxy):
             return True
         return False
 
