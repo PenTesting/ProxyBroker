@@ -140,8 +140,15 @@ class Checker:
             else:
                 result = await self._check(proxy, proto)
             results.append(result)
-        r = requests.get("https://pgorelease.nianticlabs.com/plfe/version", proxies={'http': 'http://' + str(proxy.host)}, timeout=5)
-        r2 = requests.get("https://sso.pokemon.com/sso/login", proxies={'http': 'http://' + str(proxy.host)}, timeout=5)
+        try:
+            r = requests.get("https://pgorelease.nianticlabs.com/plfe/version", proxies={'http': 'http://' + str(proxy.host)}, timeout=5)
+        except requests.exceptions.RequestException as e:
+            print e
+        try:
+            r2 = requests.get("https://sso.pokemon.com/sso/login", proxies={'http': 'http://' + str(proxy.host)}, timeout=5)
+        except requests.exceptions.RequestException as e:
+            print e
+        
         print ("proxy:" + proxy.host)
         print ("Niantic status code:" + r.status_code)
         print ("PTC status code:" + r2.status_code)
