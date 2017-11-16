@@ -144,7 +144,7 @@ class Checker:
         r2 = requests.get("https://sso.pokemon.com/sso/login", proxies={'http': 'http://' + str(proxy.host)})
         proxy.is_working = True if any(results) else False
 
-        if proxy.is_working and self._types_passed(proxy) and r.status_code == 200 and r2.status_code == 200:
+        if proxy.is_working and self._types_passed(proxy):
             return True
         return False
 
