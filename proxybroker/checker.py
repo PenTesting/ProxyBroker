@@ -149,7 +149,7 @@ class Checker:
         except requests.exceptions.RequestException as e:
             print (e)
         
-        print ("proxy:" + proxy.host)
+        #print ("proxy:" + proxy.host)
         print ("Niantic status code:" + r.status_code)
         print ("PTC status code:" + r2.status_code)
         proxy.is_working = True if any(results) else False
