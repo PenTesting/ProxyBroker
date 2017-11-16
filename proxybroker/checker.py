@@ -144,11 +144,11 @@ class Checker:
         r2 = requests.get("https://sso.pokemon.com/sso/login", proxies={'http': 'http://' + str(proxy.host)}, timeout=5)
 
         
-        #print ("proxy:" + proxy.host)
+        print ("proxy:" + proxy.host)
         #print ("Niantic status code:" + r.status_code)
         #print ("PTC status code:" + r2.status_code)
-        print(r.status_code)
-        print(r2.status_code)
+        #print(r.status_code)
+        #print(r2.status_code)
         proxy.is_working = True if any(results) else False
         proxy.is_notbanned = True if ((r.status_code == 200) and (r2.status_code == 200)) else False
         if proxy.is_notbanned and proxy.is_working and self._types_passed(proxy):
