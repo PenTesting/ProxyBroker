@@ -661,7 +661,6 @@ PROVIDERS = [
     proxylisty_com(),
     proxylists_net(),
     samair_ru(),
-    004388_com(),
     proxiesfree_wordpress_com(),
     gfgdailyproxies_blogspot_com(),
     proxies4net_blogspot_com(),
