@@ -1669,7 +1669,6 @@ PROVIDERS = [
     jimicaters_tk(),
     hackthrone_com(),
     contournerhadopi_com(),
-    tt_net&show_results=posts(),
     proxy-fresh_ru(),
     arianatorleaks_com(),
     freeproxylists_co(),
