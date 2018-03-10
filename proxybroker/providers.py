@@ -1811,7 +1811,6 @@ PROVIDERS = [
     proxy_wow_ag(),
     thizmornin_blogspot_com(),
     sehirlersohbet_com(),
-    ************_com(),
     completes_ru(),
     tapakiklan_com(),
     proxyservers_pro(),
