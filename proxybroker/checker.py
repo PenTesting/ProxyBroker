@@ -2,6 +2,8 @@ import asyncio
 import time
 import zlib
 import warnings
+import aiohttp
+import requests
 
 from .errors import (
     BadStatusError, BadResponseError, ProxyEmptyRecvError, ProxyConnError,
@@ -28,6 +30,7 @@ class Checker:
         self._types = types or {}
         self._loop = loop or asyncio.get_event_loop()
         self._resolver = Resolver(loop=self._loop)
+        self.timeout = 2
 
         self._req_http_proto = not types or bool(
             ('HTTP', 'CONNECT:80', 'SOCKS4', 'SOCKS5') & types.keys())
@@ -137,10 +140,14 @@ class Checker:
             else:
                 result = await self._check(proxy, proto)
             results.append(result)
+        r = requests.get("https://pgorelease.nianticlabs.com/plfe/version", proxies={'http': 'http://' + str(proxy.host)}, timeout=5)
+        r2 = requests.get("https://sso.pokemon.com/sso/login", proxies={'http': 'http://' + str(proxy.host)}, timeout=5)
 
+        
+        #print('IP: {}, Niantic: {}, PTC: {}'.format(proxy.host, r.status_code, r2.status_code))
         proxy.is_working = True if any(results) else False
-
-        if proxy.is_working and self._types_passed(proxy):
+        proxy.is_notbanned = True if ((r.status_code == 200) and (r2.status_code == 200)) else False
+        if proxy.is_notbanned and proxy.is_working and self._types_passed(proxy):
             return True
         return False
 
